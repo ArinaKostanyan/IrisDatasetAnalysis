@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
 
-import pandas as pd
-import numpy as np
 
 ## TASK DESCRIPTION
 # The program should take pandas dataframe as input, iterate through each of the columns in the
@@ -90,12 +88,3 @@ class StatisticsCalculator:
 
         self.statistics_df.to_excel(output_path, sheet_name="Statistics Summary")
         print(f"Summary statistics have been saved to {output_path}")
-
-
-#
-#
-
-
-iris_df = pd.read_excel("data/iris_bezdekIris.xlsx", skiprows=1)
-out_filename = "output/iris_dataset_statistics"
-output_type = ".xlsx"
