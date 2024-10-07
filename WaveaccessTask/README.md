@@ -45,7 +45,7 @@ This project comprises two main components:
 
 4. **Add your credentials for initializing a database**
 
-   1. Be sure to have installed MySQL.
+   1. Be sure to have installed MySQL and started its sever.
 
    2. Create .env file for your DB personal data. `touch .env`
       Example:

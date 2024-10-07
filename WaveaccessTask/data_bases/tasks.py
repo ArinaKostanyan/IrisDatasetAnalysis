@@ -31,11 +31,23 @@ def insert_sample_data(cursor):
     cursor.execute(
         "INSERT INTO houses (street_id, tenants, floors) VALUES (3, 100, 1);"
     )
-
+    cursor.execute(
+        """INSERT INTO developers (team, developer, task_count) VALUES
+        ('Team A', 'Dev1', 5),
+        ('Team A', 'Dev2', 3),
+        ('Team A', 'Dev3', 8),
+        ('Team B', 'Dev1', 2),
+        ('Team B', 'Dev2', 1),
+        ('Team B', 'Dev3', 3),
+        ('Team C', 'Dev1', 7),
+        ('Team C', 'Dev2', 4),
+        ('Team C', 'Dev3', 0);
+        """
+    )
     print("Sample data inserted.", "\n" * 2)
 
 
-def sample_data(cursor):
+def task1_sample_data(cursor):
     cursor.execute(
         """
         SELECT s.name, s.length, SUM(h.tenants) AS total_tenants
@@ -48,7 +60,37 @@ def sample_data(cursor):
     """
     )
     results = cursor.fetchall()
-    print("Sampled data:", "\n")
+    print("Sampled data for Task 1:", "\n")
+    for row in results:
+        print(row)
+    print("\n" * 2)
+
+
+def task2_sample_data(cursor):
+    cursor.execute(
+        """
+        WITH RankedDevelopers AS (
+        SELECT
+            team,
+            developer,
+            task_count,
+            ROW_NUMBER() OVER (PARTITION BY team ORDER BY task_count ASC) AS rn
+        FROM
+            developers
+        )
+
+        SELECT
+            team AS "Team",
+            developer AS "Developer",
+            task_count AS "Task Count"
+        FROM
+            RankedDevelopers
+        WHERE
+            rn = 1;
+    """
+    )
+    results = cursor.fetchall()
+    print("Sampled data for Task 2:", "\n")
     for row in results:
         print(row)
     print("\n" * 2)
@@ -70,7 +112,8 @@ def main():
             cursor.execute("USE mydb;")
             insert_sample_data(cursor)
             connection.commit()
-            sample_data(cursor)
+            task1_sample_data(cursor)
+            task2_sample_data(cursor)
 
     except Error as e:
         print(f"Error: '{e}'")
